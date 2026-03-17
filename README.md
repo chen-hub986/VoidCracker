@@ -33,7 +33,7 @@
 
 ```bash
 # 複製 (Clone) 或下載本專案
-git clone [https://github.com/chen-hub986/VoidCracker.git](https://github.com/chen-hub986/VoidCracker.git)
+git clone https://github.com/chen-hub986/VoidCracker.git
 cd VoidCracker
 
 # 直接運行主程式
