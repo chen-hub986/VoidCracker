@@ -6,7 +6,7 @@ class DictionaryAttack:
         self.hash_to_crack = hash_to_crack
         self.dictionary_file = dictionary_file
 
-    def attack(self) -> None:
+    def attack(self) -> str | None:
         print(f"looking for {self.dictionary_file}")
         print(f"hash to crack: {self.hash_to_crack}")
 
