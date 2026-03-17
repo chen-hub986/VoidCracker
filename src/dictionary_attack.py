@@ -1,0 +1,31 @@
+import hashlib
+
+class DictionaryAttack:
+    def __init__(self, hash_to_crack: str, dictionary_file: str):
+        self.hash_to_crack = hash_to_crack
+        self.dictionary_file = dictionary_file
+
+    def attack(self):
+        print(f"looking for {self.dictionary_file}")
+        print(f"hash to crack: {self.hash_to_crack}")
+
+        try:
+            with open(self.dictionary_file, 'r', encoding='utf-8') as file:
+                for line in file:
+                    password = line.strip()
+                    encoded_password = password.encode('utf-8')
+                    hash_object = hashlib.sha256(encoded_password)
+                    generated_hash = hash_object.hexdigest()
+
+                    if generated_hash == self.hash_to_crack:
+                        print(f"Password found: {password}")
+                        return password
+
+            print("failed to crack the hash with the provided dictionary.")
+            return None
+        except FileNotFoundError:
+            print("Dictionary file not found. Please check the file path.")
+            return None
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None
