@@ -3,6 +3,7 @@ import string
 import itertools
 import time
 
+
 class Password:
     def __init__(self, password: str) -> None:
         self.password = password
@@ -12,6 +13,7 @@ def hash_password(password: str) -> str:
     encoded_password = password.encode("utf-8")
     hash_object = hashlib.sha256(encoded_password)
     return hash_object.hexdigest()
+
 
 class BruteForce:
 

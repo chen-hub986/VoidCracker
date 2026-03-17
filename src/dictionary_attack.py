@@ -1,11 +1,12 @@
 import hashlib
 
+
 class DictionaryAttack:
-    def __init__(self, hash_to_crack: str, dictionary_file: str):
+    def __init__(self, hash_to_crack: str, dictionary_file: str) -> None:
         self.hash_to_crack = hash_to_crack
         self.dictionary_file = dictionary_file
 
-    def attack(self):
+    def attack(self) -> None:
         print(f"looking for {self.dictionary_file}")
         print(f"hash to crack: {self.hash_to_crack}")
 

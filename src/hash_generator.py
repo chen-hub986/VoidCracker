@@ -1,5 +1,6 @@
 import hashlib
 
+
 class HashGenerator:
     @staticmethod
     def generate_hash(password: str) -> str:

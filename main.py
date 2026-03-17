@@ -8,7 +8,23 @@ import hashlib
 import os
 
 
-def dictionary_path():
+def welcome_logo() -> None:
+    logo = r"""
+                                                                 
+                (      (                       )             
+ (   (     (    )\ )   )\   (       )       ( /(    (   (    
+ )\  )\ (  )\  (()/( (((_)  )(   ( /(   (   )\())  ))\  )(   
+((_)((_))\((_)  ((_)))\___ (()\  )(_))  )\ ((_)\  /((_)(()\  
+\ \ / /((_)(_)  _| |((/ __| ((_)((_)_  ((_)| |(_)(_))   ((_) 
+ \ V // _ \| |/ _` | | (__ | '_|/ _` |/ _| | / / / -_) | '_| 
+  \_/ \___/|_|\__,_|  \___||_|  \__,_|\__| |_\_\ \___| |_|   
+                                                             
+                                                             
+    """
+    print(logo)
+
+
+def dictionary_path() -> str:
     current_dir = os.path.dirname(os.path.abspath(__file__))
     dictionary_file = os.path.join(current_dir, 'passwords.txt')
     return dictionary_file
@@ -64,6 +80,7 @@ def main():
 
 
 if __name__ == "__main__":
+    welcome_logo()
     try:
         main()
     except KeyboardInterrupt:
