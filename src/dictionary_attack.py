@@ -1,5 +1,7 @@
 import hashlib
 
+import src.mutation_engine as mutation_engine
+
 
 class DictionaryAttack:
     def __init__(self, hash_to_crack: str, dictionary_file: str) -> None:
@@ -14,14 +16,16 @@ class DictionaryAttack:
             with open(self.dictionary_file, 'r', encoding='utf-8') as file:
                 for line in file:
                     password = line.strip()
-                    encoded_password = password.encode('utf-8')
-                    hash_object = hashlib.sha256(encoded_password)
-                    generated_hash = hash_object.hexdigest()
+                    mutations = mutation_engine.MutationEngine.mutate_password(password)
+                    for mutated_password in mutations:
+                        encoded_password = mutated_password.encode('utf-8')
+                        hash_object = hashlib.sha256(encoded_password)
+                        generated_hash = hash_object.hexdigest()
 
-                    if generated_hash == self.hash_to_crack:
-                        print(f"Password found: {password}")
-                        return password
-
+                        if generated_hash == self.hash_to_crack:
+                            print(f"Password found: {mutated_password}")
+                            return mutated_password
+                        
             print("failed to crack the hash with the provided dictionary.")
             return None
         except FileNotFoundError:
