@@ -1,5 +1,10 @@
 # 🛡️ VoidCracker (虛空破解者) - 資安密碼攻防系統
 
+![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Architecture](https://img.shields.io/badge/Architecture-CLI%20Tool-success)
+![Style](https://img.shields.io/badge/Style-OOP-orange)
+![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
+
 一個用 Python 物件導向架構 (OOP) 編寫的密碼安全測試專案，提供多種密碼破解與防禦驗證方法，包含標準雜湊生成、加鹽防禦機制、字典攻擊和暴力窮舉功能。
 
 ## 📋 功能特性
@@ -15,18 +20,18 @@
 ### 3. **字典攻擊** (Dictionary Attack)
 - 讀取預先定義的密碼字典檔進行碰撞比對
 - 適合快速破解常見的弱密碼
-- 內建包含數千組常見弱密碼的測試字典
+- 內建密碼變形機制（大小寫、替換字元、常見前後綴）
 
 ### 4. **暴力窮舉攻擊** (Brute Force Attack)
-- 運用高階算力逐一嘗試所有可能的密碼組合
+- 逐一嘗試所有可能的密碼組合
 - 支援自定義最大密碼長度
-- 涵蓋小寫英文字母與數字組合
+- 涵蓋小寫英文字母、數字與符號組合
 - 即時顯示破解耗時 (Time taken) 和總嘗試次數 (Attempts)
 
 ## 🚀 快速開始
 
 ### 系統環境要求
-- Python 3.8+
+- Python 3.10+
 - 僅使用 Python 內建標準函式庫（`hashlib`, `string`, `itertools`, `time`, `os`），無需安裝額外套件。
 
 ### 安裝與執行
@@ -58,32 +63,32 @@ Password Cracking Tool
 ```
 Enter your choice: 1
 Enter the password to hash: mypassword
-Hash: 36f028580bb02330ee268c1d7be155c1245a6acb668d2b60245dc9d840a40f1b
+Hash: 89e01536ac207279409d4de1e5253e01f4a1769e696db0d6062ca9b8f56767c8
 ```
 
 #### 2. 生成加鹽防禦雜湊 (Salted Hash)
 ```
 Enter your choice: 2
 Enter the password to hash: mypassword
-Salt: a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6
-Salted Hash: 7f8e9d0c1b2a3f4e5d6c7b8a9f0e1d2c
+Salt: a1b2c3d4e5f60718293a4b5c6d7e8f90
+Salted Hash: ef3e405dc8e91211f9226b58749d63eb7c0a15f2b38512c98d3197b172a6e0cb
 ```
 
 #### 3. 字典攻擊
 ```
 Enter your choice: 3
-Enter the hash to crack: 5f4dcc3b5aa765d61d8327deb882cf99
+Enter the hash to crack: 6ee4a469cd4e91053847f5d3fcb61dbcc91e8f0ef10be7748da4c4a1ba382d17
 Password found: manager
 ```
 
 #### 4. 暴力窮舉攻擊
 ```
 Enter your choice: 4
-Enter the hash to crack: 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
-Enter the maximum password length for brute-force attack: 5
+Enter the hash to crack: d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1
+Enter the maximum password length for brute-force attack: 4
 Password found: pass
-Attempts: 913521
-Time taken: 4.23
+Attempts: 5036847
+Time taken: (依電腦效能不同)
 ```
 
 ## 📁 專案結構
@@ -96,6 +101,7 @@ security_tools/
 └── src/
     ├── hash_generator.py    # Hash 產生模組
     ├── dictionary_attack.py # 字典攻擊模組
+    ├── mutation_engine.py   # 密碼變形模組
     └── brute_force.py       # 暴力破解模組
 ```
 
@@ -106,8 +112,12 @@ security_tools/
 
 ### `dictionary_attack.py`
 - `DictionaryAttack` 類別用於執行字典攻擊
-- 使用指定密碼字典逐筆比對目標雜湊值
+- 使用指定密碼字典與密碼變形結果逐筆比對目標雜湊值
 - 支援檔案不存在等例外處理
+
+### `mutation_engine.py`
+- `MutationEngine` 類別用於產生密碼變形清單
+- 包含大小寫轉換、替換字元與常見前後綴規則
 
 ### `brute_force.py`
 - `BruteForce` 類別用於執行暴力破解
@@ -125,7 +135,7 @@ security_tools/
 
 ## 📊 效能建議
 
-- **字典攻擊**：極度快速且高效，是針對「常見弱密碼」的首選攻擊手段。
+- **字典攻擊**：通常比暴力破解更快，適合先測試常見弱密碼。
 - **暴力破解**：運算成本呈指數級增長，受限於 CPU 算力，建議測試長度不超過 6 位數。
   - 5 碼：時間成本中等
   - 6 碼以上：時間成本會明顯上升
@@ -146,4 +156,4 @@ security_tools/
 
 ---
 
-**最後更新**：2026 年 3 月 17 日
+**最後更新**：2026-03-18
