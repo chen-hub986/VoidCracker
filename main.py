@@ -1,8 +1,8 @@
 import sys
 
-import src.hash_generator as hash_generator
-import src.dictionary_attack as dictionary_attack
-import src.brute_force as brute_force
+from src.hash_generator import HashGenerator
+from src.dictionary_attack import DictionaryAttack
+from src.brute_force import BruteForce
 
 import hashlib
 import os
@@ -37,6 +37,19 @@ def generate_salted_hash(password: str, salt: str) -> str:
     return hash_object.hexdigest()
 
 
+def prompt_positive_int(message: str) -> int | None:
+    while True:
+        user_input = input(message).strip()
+        try:
+            value = int(user_input)
+            if value <= 0:
+                print("Please enter a positive integer.")
+                continue
+            return value
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.")
+
+
 def main():
     while True:
         print("\nPassword Cracking Tool")
@@ -50,7 +63,7 @@ def main():
 
         if choice == '1':
             password = input("Enter the password to hash: ")
-            hashed_password = hash_generator.HashGenerator.generate_hash(password)
+            hashed_password = HashGenerator.generate_hash(password)
             print(f"Hash: {hashed_password}")
 
         elif choice == '2':
@@ -63,13 +76,13 @@ def main():
         elif choice == '3':
             hash_to_crack = input("Enter the hash to crack: ")
             dictionary_file = dictionary_path()
-            attack = dictionary_attack.DictionaryAttack(hash_to_crack, dictionary_file)
+            attack = DictionaryAttack(hash_to_crack, dictionary_file)
             attack.attack()
 
         elif choice == '4':
             hash_to_crack = input("Enter the hash to crack: ")
-            max_length = int(input("Enter the maximum password length for brute-force attack: "))
-            brute_force.BruteForce.brute_force_attack(hash_to_crack, max_length)
+            max_length = prompt_positive_int("Enter the maximum password length for brute-force attack: ")
+            BruteForce.brute_force_attack(hash_to_crack, max_length)
 
         elif choice == '5':
             print("Exiting the tool.")
