@@ -18,7 +18,7 @@ class DictionaryAttack:
     def __init__(self, hash_to_crack: str, dictionary_file: str) -> None:
         self.hash_to_crack = hash_to_crack
         self.dictionary_file = dictionary_file
-    
+
     @staticmethod
     def _load_passwords(dictionary_file: str) -> list[str]:
         # Try common encodings used by editors on Windows before failing.
