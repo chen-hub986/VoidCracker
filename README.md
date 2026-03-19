@@ -3,7 +3,7 @@
 ![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-CLI%20Tool-success)
 ![Style](https://img.shields.io/badge/Style-OOP-orange)
-![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 
 一個用 Python 物件導向架構 (OOP) 編寫的密碼安全測試專案，提供多種密碼破解與防禦驗證方法，包含標準雜湊生成、加鹽防禦機制、字典攻擊和暴力窮舉功能。
 
@@ -21,18 +21,20 @@
 - 讀取預先定義的密碼字典檔進行碰撞比對
 - 適合快速破解常見的弱密碼
 - 內建密碼變形機制（大小寫、替換字元、常見前後綴）
+- 使用 `ProcessPoolExecutor` 進行平行比對，找到答案後會提早停止未完成工作
 
 ### 4. **暴力窮舉攻擊** (Brute Force Attack)
 - 逐一嘗試所有可能的密碼組合
 - 支援自定義最大密碼長度
 - 涵蓋小寫英文字母、數字與符號組合
+- 使用 `ProcessPoolExecutor` 批次平行運算，降低單筆提交開銷
 - 即時顯示破解耗時 (Time taken) 和總嘗試次數 (Attempts)
 
 ## 🚀 快速開始
 
 ### 系統環境要求
 - Python 3.10+
-- 僅使用 Python 內建標準函式庫（`hashlib`, `string`, `itertools`, `time`, `os`），無需安裝額外套件。
+- 僅使用 Python 內建標準函式庫（如 `hashlib`, `os`, `time`, `string`, `itertools`, `concurrent.futures`, `sys`），無需安裝額外套件。
 
 ### 安裝與執行
 
@@ -102,7 +104,8 @@ security_tools/
     ├── hash_generator.py    # Hash 產生模組
     ├── dictionary_attack.py # 字典攻擊模組
     ├── mutation_engine.py   # 密碼變形模組
-    └── brute_force.py       # 暴力破解模組
+    ├── brute_force.py       # 暴力破解模組
+    └── executor_utils.py    # Executor 共用工具模組
 ```
 
 ## 🔧 模組說明
@@ -113,6 +116,7 @@ security_tools/
 ### `dictionary_attack.py`
 - `DictionaryAttack` 類別用於執行字典攻擊
 - 使用指定密碼字典與密碼變形結果逐筆比對目標雜湊值
+- 以 `ProcessPoolExecutor` 進行平行比對並支援提早停止
 - 支援檔案不存在等例外處理
 
 ### `mutation_engine.py`
@@ -122,7 +126,11 @@ security_tools/
 ### `brute_force.py`
 - `BruteForce` 類別用於執行暴力破解
 - 支援小寫字母、數字與特殊符號組合
-- 記錄嘗試次數與耗時
+- 使用批次任務搭配 `ProcessPoolExecutor`，並記錄嘗試次數與耗時
+
+### `executor_utils.py`
+- 提供共用的 executor 停止工具函式
+- 統一處理 pending 工作取消與提早 shutdown
 
 ## ⚠️ 安全提醒
 
@@ -156,4 +164,4 @@ security_tools/
 
 ---
 
-**最後更新**：2026-03-18
+**最後更新**：2026-03-19
