@@ -1,4 +1,6 @@
 import sys
+import ctypes
+from typing import Any
 
 from src.hash_generator import HashGenerator
 from src.dictionary_attack import DictionaryAttack
@@ -6,6 +8,22 @@ from src.brute_force import BruteForce
 
 import hashlib
 import os
+
+
+def enable_ansi_colors() -> bool:
+    if os.name != "nt":
+        return True
+
+    kernel32: Any = ctypes.windll.kernel32
+    handle = kernel32.GetStdHandle(-11)  # STD_OUTPUT_HANDLE
+    mode = ctypes.c_uint32()
+    if not kernel32.GetConsoleMode(handle, ctypes.byref(mode)):
+        return False
+
+    # Correct output flag for ANSI escape support on Windows consoles.
+    enable_virtual_terminal_processing = 0x0004
+    new_mode = mode.value | enable_virtual_terminal_processing
+    return bool(kernel32.SetConsoleMode(handle, new_mode))
 
 
 def welcome_logo() -> None:
@@ -21,7 +39,13 @@ def welcome_logo() -> None:
                                                              
                                                              
     """
-    print(logo)
+    if enable_ansi_colors():
+        cyan = "\033[96m"
+        magenta = "\033[95m"
+        reset = "\033[0m"
+        print(f"{cyan}{logo}{magenta}        VoidCracker CLI{reset}")
+    else:
+        print(logo)
 
 
 def dictionary_path() -> str:
