@@ -162,6 +162,9 @@ security_tools/
 
 歡迎提出 Issue 或提交 Pull Request！
 
+## LICENSE
+MIT License
+
 ---
 
 **最後更新**：2026-03-19
